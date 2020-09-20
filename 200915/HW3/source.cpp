@@ -2,11 +2,11 @@
 using namespace std;
 class Car
 {
-	string producer; //제작사
-	string model; //모델명
-	char promodel[60]; //제작사 + 모델명
+	char producer[30]; //제작사
+	char model[30]; //모델명
 	int since; //제작년도
-	int price; //가격
+	int price ; //가격
+	char promodel[60]; //제작사 + 모델명
 public:
 	void set_model(char* gmodel)
 	{
@@ -38,6 +38,7 @@ public:
 		cout << "입력하신 차량의 모델명은 " << model << "입니다." << endl;
 		cout << "입력하신 차량의 가격은 " << price << "입니다." << endl;
 		cout << "입력하신 차량의 제작년도는 " << since << "입니다." << endl;
+		cout << *promodel << endl;
 	}
 };
 int main()
@@ -47,6 +48,7 @@ int main()
 	char model[30] = {};
 	int price;
 	int since;
+	char* promodel = strcat(producer, model); //제작사 + 모델명
 	cout << "차량의 제조사를 입력해주세요: ";
 	cin >> producer;
 	cout << "차량의 모델명을 입력해주세요: ";
