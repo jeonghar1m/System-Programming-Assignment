@@ -41,8 +41,6 @@ public:
 int main()
 {
 	Car car;
-	/*char producer[30] = {};
-	char model[30] = {};*/
 	string producer;
 	string model;
 	int price;
