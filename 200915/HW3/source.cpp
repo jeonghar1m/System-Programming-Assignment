@@ -2,27 +2,23 @@
 using namespace std;
 class Car
 {
-	char producer[30]; //제작사
-	char model[30]; //모델명
+	string producer;
+	string model;
 	int since; //제작년도
 	int price ; //가격
-	char promodel[60]; //제작사 + 모델명
+	string promodel; //제작사 + 모델명
 public:
-	void set_model(char* gmodel)
+	void set_model(string gmodel)
 	{
-		strcpy_s(model, gmodel);
+		model = gmodel;
 	}
-	char* get_model()
+	void set_producer(string gproducer)
 	{
-		return model;
+		producer = gproducer;
 	}
-	void set_producer(char* gproducer)
+	void set_promodel(string gpromodel)
 	{
-		strcpy_s(producer, gproducer);
-	}
-	char* get_producer()
-	{
-		return producer;
+		promodel = gpromodel;
 	}
 	void set_price(int gprice)
 	{
@@ -38,17 +34,19 @@ public:
 		cout << "입력하신 차량의 모델명은 " << model << "입니다." << endl;
 		cout << "입력하신 차량의 가격은 " << price << "입니다." << endl;
 		cout << "입력하신 차량의 제작년도는 " << since << "입니다." << endl;
-		cout << *promodel << endl;
+		cout << "-----------------------------------------" << endl;
+		cout << promodel << endl;
 	}
 };
 int main()
 {
 	Car car;
-	char producer[30] = {};
-	char model[30] = {};
+	/*char producer[30] = {};
+	char model[30] = {};*/
+	string producer;
+	string model;
 	int price;
 	int since;
-	char* promodel = strcat(producer, model); //제작사 + 모델명
 	cout << "차량의 제조사를 입력해주세요: ";
 	cin >> producer;
 	cout << "차량의 모델명을 입력해주세요: ";
@@ -57,10 +55,12 @@ int main()
 	cin >> price;
 	cout << "차량의 제작년도를 입력해주세요: ";
 	cin >> since;
+	string promodel = producer + " " + model;
 	car.set_producer(producer);
 	car.set_model(model);
 	car.set_price(price);
 	car.set_since(since);
+	car.set_promodel(promodel);
 	car.render();
 	return 0;
 }
