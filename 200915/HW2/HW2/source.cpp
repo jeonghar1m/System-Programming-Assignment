@@ -2,26 +2,18 @@
 using namespace std;
 class Car
 {
-	char producer[30]; //제작사
-	char model[30]; //모델명
+	string producer; //제작사
+	string model; //모델명
 	int since; //제작년도
 	int price; //가격
 public:
 	void set_model(char* gmodel)
 	{
-		strcpy_s(model, gmodel);
-	}
-	char* get_model()
-	{
-		return model;
+		model = gmodel;
 	}
 	void set_producer(char* gproducer)
 	{
-		strcpy_s(producer, gproducer);
-	}
-	char* get_producer()
-	{
-		return producer;
+		producer = gproducer;
 	}
 	void set_price(int gprice)
 	{
