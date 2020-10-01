@@ -8,7 +8,7 @@ int main()
 	time_t now = time(NULL);
 	struct tm* lt = localtime(&now);
 
-	cout << lt->tm_year + 1900 << "³â " << lt->tm_mon + 1 << "¿ù " << lt->tm_mday << "ÀÏ " << lt->tm_hour << "½Ã " << lt->tm_min << "ºÐ " << lt->tm_sec << "ÃÊ" << endl;
+	cout << lt->tm_year + 1900 << "ë…„ " << lt->tm_mon + 1 << "ì›” " << lt->tm_mday << "ì¼ " << lt->tm_hour << "ì‹œ " << lt->tm_min << "ë¶„ " << lt->tm_sec << "ì´ˆ" << endl;
 
 	return 0;
 }
