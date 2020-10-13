@@ -1,3 +1,4 @@
+//1번 2번 합침.
 #include <iostream>
 #include <fstream>
 using namespace std;
