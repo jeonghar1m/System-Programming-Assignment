@@ -10,7 +10,7 @@ struct User
 	int playtime;
 	int score;
 };
-typedef struct Userlist
+typedef struct Userlist	//하위 구조체
 {
 	User user_list[4] = {};
 }userlist;
@@ -26,7 +26,7 @@ int main()
 	switch (select)
 	{
 	case 1:
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++)	//4명까지 입력 받음.
 		{
 			cout << "ID: ";
 			cin >> my_userlist.user_list[i].id;
@@ -39,14 +39,14 @@ int main()
 		}
 
 		fout.open("userinform.dat");
-		for(int i=0;i<4;i++)
+		for(int i=0;i<4;i++)	//4명에 대한 데이터를 그대로 파일로 내보냄.
 			fout << my_userlist.user_list[i].id << " " << my_userlist.user_list[i].name << " " << my_userlist.user_list[i].playtime << " " << my_userlist.user_list[i].score << endl;
 		fout.close();
 		break;
 	case 2:
 		fin.open("userinform.dat");
 
-		if (fin.fail())
+		if (fin.fail())	//해당되는 파일이 없을 경우
 		{
 			cout << "파일 오픈 실패" << endl;
 			return 0;
