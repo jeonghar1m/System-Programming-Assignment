@@ -12,44 +12,53 @@ struct User
 };
 typedef struct Userlist
 {
-	User user_list[4];
+	User user_list[4] = {};
 }userlist;
 
-void main()
+int main()
 {
 	userlist my_userlist;
 	ofstream fout;
 	ifstream fin;
-	for (int i = 0; i < 4; i++)
+	int select = 0;
+	cout << "메뉴를 선택하세요.(1. 파일 입력, 2. 파일 출력): ";
+	cin >> select;
+	switch (select)
 	{
-		cout << "ID: ";
-		cin >> my_userlist.user_list[i].id;
-		cout << "Name: ";
-		cin >> my_userlist.user_list[i].name;
-		cout << "Playtime: ";
-		cin >> my_userlist.user_list[i].playtime;
-		cout << "Score: ";
-		cin >> my_userlist.user_list[i].score;
+	case 1:
+		for (int i = 0; i < 4; i++)
+		{
+			cout << "ID: ";
+			cin >> my_userlist.user_list[i].id;
+			cout << "Name: ";
+			cin >> my_userlist.user_list[i].name;
+			cout << "Playtime: ";
+			cin >> my_userlist.user_list[i].playtime;
+			cout << "Score: ";
+			cin >> my_userlist.user_list[i].score;
+		}
+
+		fout.open("userinform.dat");
+		for(int i=0;i<4;i++)
+			fout << my_userlist.user_list[i].id << " " << my_userlist.user_list[i].name << " " << my_userlist.user_list[i].playtime << " " << my_userlist.user_list[i].score << endl;
+		fout.close();
+		break;
+	case 2:
+		fin.open("userinform.dat");
+
+		if (fin.fail())
+		{
+			cout << "파일 오픈 실패" << endl;
+			return 0;
+		}
+		for (int i = 0; i < 4; i++)
+			fin >> my_userlist.user_list[i].id >> my_userlist.user_list[i].name >> my_userlist.user_list[i].playtime >> my_userlist.user_list[i].score;
+		for(int i=0;i<4;i++)
+			cout << "사용자 id: " << my_userlist.user_list[i].id << endl << "사용자 이름: " << my_userlist.user_list[i].name << endl << "게임 시간: " << my_userlist.user_list[i].playtime << endl << "게임 실행 점수: " << my_userlist.user_list[i].score << endl;
+
+		fin.close();
+		break;
 	}
 
-	fout.open("userinform.dat");
-	for(int i=0;i<4;i++)
-		fout << "사용자 id: " << my_userlist.user_list[i].id << endl << "사용자 이름: " << my_userlist.user_list[i].name << endl << "게임 시간: " << my_userlist.user_list[i].playtime << endl << "게임 실행 점수: " << my_userlist.user_list[i].score << endl;
-
-	fout.close();
-
-	cout << endl;
-
-	fin.open("userinform.dat");
-
-	if (fin.fail())
-	{
-		cout << "파일 오픈 실패" << endl;
-		return;
-	}
-
-	for(int i=0;i<4;i++)
-		cout << "사용자 id: " << my_userlist.user_list[i].id << endl << "사용자 이름: " << my_userlist.user_list[i].name << endl << "게임 시간: " << my_userlist.user_list[i].playtime << endl << "게임 실행 점수: " << my_userlist.user_list[i].score << endl;
-
-	fin.close();
+	return 0;
 }
