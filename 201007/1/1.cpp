@@ -1,6 +1,10 @@
 //1번 2번 합침.
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <fstream>
+#include <sys/stat.h>
+#include <time.h>
+#include <errno.h>
 using namespace std;
 
 struct User
@@ -20,7 +24,16 @@ int main()
 	userlist my_userlist;
 	ofstream fout;
 	ifstream fin;
-	int select = 0;
+
+	time_t now = time(NULL);
+	struct _stat buf;	//파일 정보 구조체
+	struct tm* lt;
+
+	char filename[] = "userinform.dat";
+	_stat(filename, &buf);	//buf에 filename 대입
+
+	int select = 0;	//메뉴 선택
+
 	cout << "메뉴를 선택하세요.(1. 파일 입력, 2. 파일 출력): ";
 	cin >> select;
 	switch (select)
@@ -53,9 +66,16 @@ int main()
 		}
 		for (int i = 0; i < 4; i++)
 			fin >> my_userlist.user_list[i].id >> my_userlist.user_list[i].name >> my_userlist.user_list[i].playtime >> my_userlist.user_list[i].score;
+	
 		for(int i=0;i<4;i++)
 			cout << "사용자 id: " << my_userlist.user_list[i].id << endl << "사용자 이름: " << my_userlist.user_list[i].name << endl << "게임 시간: " << my_userlist.user_list[i].playtime << endl << "게임 실행 점수: " << my_userlist.user_list[i].score << endl;
-
+		cout << "---------------------------------------------------------------" << endl;
+		lt = localtime(&buf.st_ctime);
+		cout << "파일 생성 시간: " << lt->tm_year + 1900 << "년 " << lt->tm_mon + 1 << "월 " << lt->tm_mday << "일 " << lt->tm_hour << ":" << lt->tm_min << endl;
+		lt = localtime(&buf.st_mtime);
+		cout << "최종 수정 시간: " << lt->tm_year + 1900 << "년 " << lt->tm_mon + 1 << "월 " << lt->tm_mday << "일 " << lt->tm_hour << ":" << lt->tm_min << endl;
+		lt = localtime(&now);
+		cout << "파일 접근 시간: " << lt->tm_year + 1900 << "년 " << lt->tm_mon + 1 << "월 " << lt->tm_mday << "일 " << lt->tm_hour << ":" << lt->tm_min << endl;
 		fin.close();
 		break;
 	}
