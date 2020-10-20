@@ -4,7 +4,6 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <time.h>
-#include <errno.h>
 using namespace std;
 
 struct User
