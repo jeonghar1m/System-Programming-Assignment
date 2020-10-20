@@ -52,7 +52,7 @@ int main()
 		}
 
 		fout.open("userinform.dat");
-		for(int i=0;i<4;i++)	//4명에 대한 데이터를 그대로 파일로 내보냄.
+		for (int i = 0; i < 4; i++)	//4명에 대한 데이터를 그대로 파일로 내보냄.
 			fout << my_userlist.user_list[i].id << " " << my_userlist.user_list[i].name << " " << my_userlist.user_list[i].playtime << " " << my_userlist.user_list[i].score << endl;
 		fout.close();
 		break;
@@ -66,8 +66,8 @@ int main()
 		}
 		for (int i = 0; i < 4; i++)
 			fin >> my_userlist.user_list[i].id >> my_userlist.user_list[i].name >> my_userlist.user_list[i].playtime >> my_userlist.user_list[i].score;
-	
-		for(int i=0;i<4;i++)
+
+		for (int i = 0; i < 4; i++)
 			cout << "사용자 id: " << my_userlist.user_list[i].id << endl << "사용자 이름: " << my_userlist.user_list[i].name << endl << "게임 시간: " << my_userlist.user_list[i].playtime << endl << "게임 실행 점수: " << my_userlist.user_list[i].score << endl;
 		cout << "---------------------------------------------------------------" << endl;
 		lt = localtime(&buf.st_ctime);
