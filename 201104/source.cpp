@@ -6,7 +6,22 @@
 static int total = 0;	//합계
 static float average = 0.0f;	//평균
 
-DWORD WINAPI ThreadProc(LPVOID lpParam)
+DWORD WINAPI ThreadProc(LPVOID lpParam)		//입력
+{
+	DWORD number[10] = {};
+	printf("숫자를 10개 입력해주세요.\n");
+	for (DWORD i = 0; i < 10; i++)
+		scanf("%d", number[i]);
+
+	return *number;
+}
+
+DWORD WINAPI ThreadProc2(LPVOID lpParam)	//출력
+{
+
+}
+
+DWORD WINAPI ThreadProc3(LPVOID lpParam)	//합계, 평균
 {
 	DWORD* nPtr = (DWORD*)lpParam;
 
