@@ -16,7 +16,7 @@ DWORD WINAPI ThreadProc(LPVOID lpParam)		//입력
 	DWORD number[10] = {};
 
 	for (DWORD i = numOne; i <= numTwo; i++)
-		scanf("%d", number[i]);
+		scanf("%d", &number[i]);
 
 	return *number;
 }
@@ -30,7 +30,7 @@ DWORD WINAPI ThreadProc2(LPVOID lpParam)	//합계, 평균
 
 	for (DWORD i = numOne; i <= numTwo; i++)
 	{
-		total += i;
+		total = numOne + numTwo;
 	}
 
 	average = total / 10.0f;
