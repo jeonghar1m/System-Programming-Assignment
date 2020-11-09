@@ -3,35 +3,17 @@
 #include <tchar.h>
 #pragma warning(disable:4996)
 
-static int total = 0;	//합계
-static float average = 0.0f;	//평균
+static int total = 0;
+static float average = 0.0f;
 
-DWORD WINAPI ThreadProc(LPVOID lpParam)		//입력
+DWORD WINAPI ThreadProc(LPVOID lpParam)
 {
 	DWORD* nPtr = (DWORD*)lpParam;
 
 	DWORD numOne = *nPtr;
 	DWORD numTwo = *(nPtr + 1);
 
-	DWORD number[10] = {};
-
-	for (DWORD i = numOne; i <= numTwo; i++)
-		scanf("%d", &number[i]);
-
-	return *number;
-}
-
-DWORD WINAPI ThreadProc2(LPVOID lpParam)	//합계, 평균
-{
-	DWORD* nPtr = (DWORD*)lpParam;
-
-	DWORD numOne = *nPtr;
-	DWORD numTwo = *(nPtr + 1);
-
-	for (DWORD i = numOne; i <= numTwo; i++)
-	{
-		total = numOne + numTwo;
-	}
+	total = numOne + numTwo;
 
 	average = total / 10.0f;
 
@@ -42,14 +24,17 @@ DWORD WINAPI ThreadProc2(LPVOID lpParam)	//합계, 평균
 int _tmain(int argc, TCHAR* argv[])
 {
 	DWORD dwThreadID[3];
-	HANDLE hThread1[3];   //입력용
-	HANDLE hThread2[3];  //합계용
+	HANDLE hThread[3];
 
 	DWORD paramThread[10] = {};
 
-	_tprintf(_T("숫자 10개를 입력해주세요. \n"));
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%d번째 숫자: ", i + 1);
+		scanf("%d", &paramThread[i]);
+	}
 
-	hThread1[0] =
+	hThread[0] =
 		CreateThread(
 			NULL, 0,
 			ThreadProc,
@@ -57,7 +42,7 @@ int _tmain(int argc, TCHAR* argv[])
 			0, &dwThreadID[0]
 		);
 
-	hThread1[1] =
+	hThread[1] =
 		CreateThread(
 			NULL, 0,
 			ThreadProc,
@@ -65,7 +50,7 @@ int _tmain(int argc, TCHAR* argv[])
 			0, &dwThreadID[1]
 		);
 
-	hThread1[2] =
+	hThread[2] =
 		CreateThread(
 			NULL, 0,
 			ThreadProc,
@@ -73,53 +58,22 @@ int _tmain(int argc, TCHAR* argv[])
 			0, &dwThreadID[2]
 		);
 
-	for(int i=0;i<10;i++)
-		_tprintf(_T("%d ", number[i]));
 
-	hThread2[0] =
-		CreateThread(
-			NULL, 0,
-			ThreadProc2,
-			(LPVOID)(&paramThread[0]),
-			0, &dwThreadID[0]
-		);
-
-	hThread2[1] =
-		CreateThread(
-			NULL, 0,
-			ThreadProc2,
-			(LPVOID)(&paramThread[3]),
-			0, &dwThreadID[1]
-		);
-
-	hThread2[2] =
-		CreateThread(
-			NULL, 0,
-			ThreadProc2,
-			(LPVOID)(&paramThread[6]),
-			0, &dwThreadID[2]
-		);
-
-
-	if (hThread1[0] == NULL || hThread1[1] == NULL || hThread1[2] == NULL)
+	if (hThread[0] == NULL || hThread[1] == NULL || hThread[2] == NULL)
 	{
 		_tprintf(_T("Thread creation fault! \n"));
 		return -1;
 	}
 
-	WaitForMultipleObjects(3, hThread1, TRUE, INFINITE);
-	WaitForMultipleObjects(3, hThread2, TRUE, INFINITE);
+	WaitForMultipleObjects(3, hThread, TRUE, INFINITE);
 
 	_tprintf(_T("total: %d \n"), total);
-	_tprintf(_T("average: %.3f\n"), average);
+	_tprintf(_T("average: %f \n"), average);
 
-	CloseHandle(hThread1[0]);
-	CloseHandle(hThread1[1]);
-	CloseHandle(hThread1[2]);
-
-	CloseHandle(hThread2[0]);
-	CloseHandle(hThread2[1]);
-	CloseHandle(hThread2[2]);
+	CloseHandle(hThread[0]);
+	CloseHandle(hThread[1]);
+	CloseHandle(hThread[2]);
 
 	return 0;
 }
+
