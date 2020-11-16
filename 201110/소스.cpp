@@ -1,10 +1,8 @@
-#include <stdio.h>
+癤�#include <stdio.h>
 #include <windows.h>
 #include <tchar.h>
-#pragma warning(disable:4996)
 
-static int total = 0;
-static float average = 0.0f;
+#pragma warning(disable:4996)
 
 DWORD WINAPI ThreadProc(LPVOID lpParam)
 {
@@ -13,11 +11,14 @@ DWORD WINAPI ThreadProc(LPVOID lpParam)
 	DWORD numOne = *nPtr;
 	DWORD numTwo = *(nPtr + 1);
 
-	total = numOne + numTwo;
+	DWORD total = 0;
 
-	average = total / 10.0f;
+	for (DWORD i = numOne; i <= numTwo; i++)
+	{
+		total += i;
+	}
 
-	return 0; // 정상적 종료.
+	return total;
 }
 
 
@@ -26,13 +27,9 @@ int _tmain(int argc, TCHAR* argv[])
 	DWORD dwThreadID[3];
 	HANDLE hThread[3];
 
-	DWORD paramThread[10] = {};
-
-	for (int i = 0; i < 10; i++)
-	{
-		printf("%d번째 숫자: ", i + 1);
-		scanf("%d", &paramThread[i]);
-	}
+	DWORD paramThread[] = { 1, 3, 4, 7, 8, 10 };
+	DWORD total = 0;
+	DWORD result = 0;
 
 	hThread[0] =
 		CreateThread(
@@ -46,7 +43,7 @@ int _tmain(int argc, TCHAR* argv[])
 		CreateThread(
 			NULL, 0,
 			ThreadProc,
-			(LPVOID)(&paramThread[3]),
+			(LPVOID)(&paramThread[2]),
 			0, &dwThreadID[1]
 		);
 
@@ -54,7 +51,7 @@ int _tmain(int argc, TCHAR* argv[])
 		CreateThread(
 			NULL, 0,
 			ThreadProc,
-			(LPVOID)(&paramThread[6]),
+			(LPVOID)(&paramThread[4]),
 			0, &dwThreadID[2]
 		);
 
@@ -67,8 +64,16 @@ int _tmain(int argc, TCHAR* argv[])
 
 	WaitForMultipleObjects(3, hThread, TRUE, INFINITE);
 
-	_tprintf(_T("total: %d \n"), total);
-	_tprintf(_T("average: %f \n"), average);
+	GetExitCodeThread(hThread[0], &result);
+	total += result;
+
+	GetExitCodeThread(hThread[1], &result);
+	total += result;
+
+	GetExitCodeThread(hThread[2], &result);
+	total += result;
+
+	_tprintf(_T("total (1 ~ 10): %d \n"), total);
 
 	CloseHandle(hThread[0]);
 	CloseHandle(hThread[1]);
