@@ -8,15 +8,17 @@ DWORD WINAPI ThreadProc(LPVOID lpParam)
 {
 	DWORD* nPtr = (DWORD*)lpParam;
 
-	DWORD numOne = *nPtr;
-	DWORD numTwo = *(nPtr + 1);
-
 	DWORD total = 0;
 
-	for (DWORD i = numOne; i <= numTwo; i++)
-	{
-		total += i;
-	}
+	int checkNull = 0;
+
+	if (*(nPtr + 4) == '\0')
+		checkNull = 4;
+	else
+		checkNull = 3;
+
+	for (int i = 0; i < checkNull; i++)
+		total += *(nPtr + i);
 
 	return total;
 }
@@ -27,9 +29,16 @@ int _tmain(int argc, TCHAR* argv[])
 	DWORD dwThreadID[3];
 	HANDLE hThread[3];
 
-	DWORD paramThread[] = { 1, 3, 4, 7, 8, 10 };
+	DWORD paramThread[12] = {};	//세번째 쓰레드를 사용하기 위해 배열의 크기를 12로 둠.
 	DWORD total = 0;
 	DWORD result = 0;
+
+	printf("10개의 값을 입력하시오.\n");
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%d번째 값: ", i + 1);
+		scanf("%d", &paramThread[i]);
+	}
 
 	hThread[0] =
 		CreateThread(
@@ -43,7 +52,7 @@ int _tmain(int argc, TCHAR* argv[])
 		CreateThread(
 			NULL, 0,
 			ThreadProc,
-			(LPVOID)(&paramThread[2]),
+			(LPVOID)(&paramThread[3]),
 			0, &dwThreadID[1]
 		);
 
@@ -51,7 +60,7 @@ int _tmain(int argc, TCHAR* argv[])
 		CreateThread(
 			NULL, 0,
 			ThreadProc,
-			(LPVOID)(&paramThread[4]),
+			(LPVOID)(&paramThread[6]),
 			0, &dwThreadID[2]
 		);
 
@@ -73,7 +82,7 @@ int _tmain(int argc, TCHAR* argv[])
 	GetExitCodeThread(hThread[2], &result);
 	total += result;
 
-	_tprintf(_T("total (1 ~ 10): %d \n"), total);
+	_tprintf(_T("total: %d \n"), total);
 
 	CloseHandle(hThread[0]);
 	CloseHandle(hThread[1]);
@@ -81,4 +90,3 @@ int _tmain(int argc, TCHAR* argv[])
 
 	return 0;
 }
-
