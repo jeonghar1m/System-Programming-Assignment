@@ -31,6 +31,7 @@ int _tmain(int argc, TCHAR* argv[])
 
 	DWORD paramThread[12] = {};	//세번째 쓰레드를 사용하기 위해 배열의 크기를 12로 둠.
 	DWORD total = 0;
+	float average = 0.0f;
 	DWORD result = 0;
 
 	printf("10개의 값을 입력하시오.\n");
@@ -82,7 +83,10 @@ int _tmain(int argc, TCHAR* argv[])
 	GetExitCodeThread(hThread[2], &result);
 	total += result;
 
+	average = total / 10.0f;
+
 	_tprintf(_T("total: %d \n"), total);
+	_tprintf(_T("average: %f \n"), average);
 
 	CloseHandle(hThread[0]);
 	CloseHandle(hThread[1]);
