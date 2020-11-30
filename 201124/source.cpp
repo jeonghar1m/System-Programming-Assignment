@@ -77,63 +77,68 @@ int _tmain(int argc, TCHAR* argv[])
 		fin.open("data.dat");
 
 		if (fin.fail())
+		{
 			cout << "파일을 찾을 수 없습니다." << endl;
+			break;
+		}
 		
 		for (int i = 0; i < NUMBER_AMOUNT; i++)
 			fin >> no[i];
+
+		hThread[0] =
+			CreateThread(
+				NULL, 0,
+				ThreadProc,
+				(LPVOID)(&paramThread[0]),
+				0, &dwThreadID[0]
+			);
+
+		hThread[1] =
+			CreateThread(
+				NULL, 0,
+				ThreadProc,
+				(LPVOID)(&paramThread[10]),
+				0, &dwThreadID[1]
+			);
+
+		hThread[2] =
+			CreateThread(
+				NULL, 0,
+				ThreadProc,
+				(LPVOID)(&paramThread[20]),
+				0, &dwThreadID[2]
+			);
+
+
+		if (hThread[0] == NULL || hThread[1] == NULL || hThread[2] == NULL)
+		{
+			_tprintf(_T("Thread creation fault! \n"));
+			return -1;
+		}
+
+		WaitForMultipleObjects(3, hThread, TRUE, INFINITE);
+
+		GetExitCodeThread(hThread[0], &result);
+		total += result;
+
+		GetExitCodeThread(hThread[1], &result);
+		total += result;
+
+		GetExitCodeThread(hThread[2], &result);
+		total += result;
+
+		average = total / 10.0f;
+
+		_tprintf(_T("total: %d \n"), total);
+		_tprintf(_T("average: %f \n"), average);
+
+		CloseHandle(hThread[0]);
+		CloseHandle(hThread[1]);
+		CloseHandle(hThread[2]);
+
+		break;
 	}
 	}
-
-	hThread[0] =
-		CreateThread(
-			NULL, 0,
-			ThreadProc,
-			(LPVOID)(&paramThread[0]),
-			0, &dwThreadID[0]
-		);
-
-	hThread[1] =
-		CreateThread(
-			NULL, 0,
-			ThreadProc,
-			(LPVOID)(&paramThread[3]),
-			0, &dwThreadID[1]
-		);
-
-	hThread[2] =
-		CreateThread(
-			NULL, 0,
-			ThreadProc,
-			(LPVOID)(&paramThread[6]),
-			0, &dwThreadID[2]
-		);
-
-
-	if (hThread[0] == NULL || hThread[1] == NULL || hThread[2] == NULL)
-	{
-		_tprintf(_T("Thread creation fault! \n"));
-		return -1;
-	}
-
-	WaitForMultipleObjects(3, hThread, TRUE, INFINITE);
-
-	GetExitCodeThread(hThread[0], &result);
-	total += result;
-
-	GetExitCodeThread(hThread[1], &result);
-	total += result;
-
-	GetExitCodeThread(hThread[2], &result);
-	total += result;
-
-	average = total / 10.0f;
-
-	_tprintf(_T("total: %d \n"), total);
-	_tprintf(_T("average: %f \n"), average);
-
-	CloseHandle(hThread[0]);
-	CloseHandle(hThread[1]);
-	CloseHandle(hThread[2]);
 
 	return 0;
 }
