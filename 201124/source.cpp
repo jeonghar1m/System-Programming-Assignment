@@ -72,6 +72,16 @@ int _tmain(int argc, TCHAR* argv[])
 
 		break;
 	}
+	case 2:
+	{
+		fin.open("data.dat");
+
+		if (fin.fail())
+			cout << "파일을 찾을 수 없습니다." << endl;
+		
+		for (int i = 0; i < NUMBER_AMOUNT; i++)
+			fin >> no[i];
+	}
 	}
 
 	hThread[0] =
