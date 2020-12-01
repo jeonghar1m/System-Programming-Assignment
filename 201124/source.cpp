@@ -38,7 +38,7 @@ int _tmain(int argc, TCHAR* argv[])
 
 	int select = 0;
 
-	cout << "메뉴를 선택하세요. 1. 입력, 2. 출력" << endl;
+	cout << "메뉴를 선택하세요. 1. 입력 후 내보냄, 2. 불러오기" << endl;
 	cout << "입력: ";
 	cin >> select;
 
