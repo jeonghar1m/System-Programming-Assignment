@@ -15,14 +15,8 @@ DWORD WINAPI ThreadProc(LPVOID lpParam)
 
 	DWORD total = 0;
 
-	int checkNull = 0;
 
-	if (*(nPtr + 4) == '\0')
-		checkNull = 4;
-	else
-		checkNull = 3;
-
-	for (int i = 0; i < checkNull; i++)
+	for (int i = 0; i < 10; i++)
 		total += *(nPtr + i);
 
 	return total;
@@ -37,12 +31,10 @@ int _tmain(int argc, TCHAR* argv[])
 	DWORD dwThreadID[3];
 	HANDLE hThread[3];
 
-	DWORD paramThread[12] = {};	//세번째 쓰레드를 사용하기 위해 배열의 크기를 12로 둠.
+	DWORD paramThread[30] = {};
 	DWORD total = 0;
 	float average = 0.0f;
 	DWORD result = 0;
-
-	int no[30] = {};
 
 	int select = 0;
 
@@ -59,14 +51,14 @@ int _tmain(int argc, TCHAR* argv[])
 		for (int i = 0; i < NUMBER_AMOUNT; i++)
 		{
 			printf("%d번째 값: ", i + 1);
-			scanf("%d", &no[i]);
+			scanf("%d", &paramThread[i]);
 		}
 
 		fout.open("data.dat");
 
 		//입력한 숫자들 파일로 내보냄.
 		for (int i = 0; i < NUMBER_AMOUNT; i++)
-			fout << no[i] << endl;
+			fout << paramThread[i] << endl;
 
 		fout.close();
 
@@ -83,7 +75,7 @@ int _tmain(int argc, TCHAR* argv[])
 		}
 		
 		for (int i = 0; i < NUMBER_AMOUNT; i++)
-			fin >> no[i];
+			fin >> paramThread[i];
 
 		hThread[0] =
 			CreateThread(
