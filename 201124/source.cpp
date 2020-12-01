@@ -9,25 +9,39 @@ using namespace std;
 
 #pragma warning(disable:4996)
 
-DWORD WINAPI ThreadProc(LPVOID lpParam)
+ofstream fout;
+ifstream fin;
+
+DWORD WINAPI CalculateProc(LPVOID lpParam)
 {
 	DWORD* nPtr = (DWORD*)lpParam;
 
 	DWORD total = 0;
 
 
-	for (int i = 0; i < 10; i++)
+	for (DWORD i = 0; i < 10; i++)
 		total += *(nPtr + i);
 
 	return total;
 }
 
+DWORD WINAPI InputProc(LPVOID lpParam)
+{
+	DWORD* nPtr = (DWORD*)lpParam;
+	DWORD no[10] = {};
+
+	for (DWORD i = 0; i < 10; i++)
+	{
+		printf("%d번째 값: ", i + 1);
+		scanf("%d", no[i]);
+		*(nPtr + i) = no[i];
+	}
+
+	return 0;
+}
 
 int _tmain(int argc, TCHAR* argv[])
 {
-	ofstream fout;
-	ifstream fin;
-
 	DWORD dwThreadID[3];
 	HANDLE hThread[3];
 
@@ -47,12 +61,36 @@ int _tmain(int argc, TCHAR* argv[])
 	case 1:
 	{
 		//값 입력
-		printf("10개의 값을 입력하시오.\n");
-		for (int i = 0; i < NUMBER_AMOUNT; i++)
-		{
-			printf("%d번째 값: ", i + 1);
-			scanf("%d", &paramThread[i]);
-		}
+		//printf("10개의 값을 입력하시오.\n");
+		//for (int i = 0; i < NUMBER_AMOUNT; i++)
+		//{
+		//	printf("%d번째 값: ", i + 1);
+		//	scanf("%d", &paramThread[i]);
+		//}
+
+		hThread[0] =
+			CreateThread(
+				NULL, 0,
+				InputProc,
+				(LPVOID)(&paramThread[0]),
+				0, &dwThreadID[0]
+			);
+
+		hThread[1] =
+			CreateThread(
+				NULL, 0,
+				InputProc,
+				(LPVOID)(&paramThread[10]),
+				0, &dwThreadID[1]
+			);
+
+		hThread[2] =
+			CreateThread(
+				NULL, 0,
+				InputProc,
+				(LPVOID)(&paramThread[20]),
+				0, &dwThreadID[2]
+			);
 
 		fout.open("data.dat");
 
@@ -61,6 +99,17 @@ int _tmain(int argc, TCHAR* argv[])
 			fout << paramThread[i] << endl;
 
 		fout.close();
+
+
+		if (hThread[0] == NULL || hThread[1] == NULL || hThread[2] == NULL)
+		{
+			_tprintf(_T("Thread creation fault! \n"));
+			return -1;
+		}
+
+		CloseHandle(hThread[0]);
+		CloseHandle(hThread[1]);
+		CloseHandle(hThread[2]);
 
 		break;
 	}
@@ -80,7 +129,7 @@ int _tmain(int argc, TCHAR* argv[])
 		hThread[0] =
 			CreateThread(
 				NULL, 0,
-				ThreadProc,
+				CalculateProc,
 				(LPVOID)(&paramThread[0]),
 				0, &dwThreadID[0]
 			);
@@ -88,7 +137,7 @@ int _tmain(int argc, TCHAR* argv[])
 		hThread[1] =
 			CreateThread(
 				NULL, 0,
-				ThreadProc,
+				CalculateProc,
 				(LPVOID)(&paramThread[10]),
 				0, &dwThreadID[1]
 			);
@@ -96,7 +145,7 @@ int _tmain(int argc, TCHAR* argv[])
 		hThread[2] =
 			CreateThread(
 				NULL, 0,
-				ThreadProc,
+				CalculateProc,
 				(LPVOID)(&paramThread[20]),
 				0, &dwThreadID[2]
 			);
