@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <tchar.h>
 #include <process.h>
+#include <time.h>
 using namespace std;
 
 #define NUMBER_AMOUNT 30
@@ -51,6 +52,13 @@ int _tmain(int argc, TCHAR* argv[])
 
 	int select = 0;
 
+	time_t now = time(NULL);
+	struct _stat buf;	//파일 정보 구조체
+	struct tm* lt;
+	char filename[] = "data.dat";
+	_stat(filename, &buf);	//buf에 filename 대입
+	lt = localtime(&now);
+
 	// 세마포어 생성.
 	hSemaphore = CreateSemaphore(
 		NULL,    // 디폴트 보안관리자.
@@ -66,7 +74,7 @@ int _tmain(int argc, TCHAR* argv[])
 	cout << "메뉴를 선택하세요. 1. 입력 후 내보냄, 2. 불러오기" << endl;
 	cout << "입력: ";
 	cin >> select;
-
+	cout << "--------------------------------------------" << endl;
 	switch (select)
 	{
 	case 1:
@@ -177,6 +185,7 @@ int _tmain(int argc, TCHAR* argv[])
 
 		average = total / 10.0f;
 
+		cout << "파일 접근 시간: " << lt->tm_year + 1900 << "년 " << lt->tm_mon + 1 << "월 " << lt->tm_mday << "일 " << lt->tm_hour << ":" << lt->tm_min << endl;
 		_tprintf(_T("total: %d \n"), total);
 		_tprintf(_T("average: %f \n"), average);
 
