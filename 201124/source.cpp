@@ -75,6 +75,7 @@ int _tmain(int argc, TCHAR* argv[])
 	cout << "ют╥б: ";
 	cin >> select;
 	cout << "--------------------------------------------" << endl;
+
 	switch (select)
 	{
 	case 1:
