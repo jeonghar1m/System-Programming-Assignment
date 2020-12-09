@@ -184,7 +184,7 @@ int _tmain(int argc, TCHAR* argv[])
 		GetExitCodeThread(hThread[2], &result);
 		total += result;
 
-		average = total / 10.0f;
+		average = total / 30.0f;
 
 		cout << "파일 접근 시간: " << lt->tm_year + 1900 << "년 " << lt->tm_mon + 1 << "월 " << lt->tm_mday << "일 " << lt->tm_hour << ":" << lt->tm_min << endl;
 		_tprintf(_T("total: %d \n"), total);
