@@ -187,6 +187,9 @@ int _tmain(int argc, TCHAR* argv[])
 		average = total / 30.0f;
 
 		cout << "파일 접근 시간: " << lt->tm_year + 1900 << "년 " << lt->tm_mon + 1 << "월 " << lt->tm_mday << "일 " << lt->tm_hour << ":" << lt->tm_min << endl;
+		for (int i = 0; i < NUMBER_AMOUNT; i++)
+			cout<< paramThread[i] << ' ';
+		cout << endl;
 		_tprintf(_T("total: %d \n"), total);
 		_tprintf(_T("average: %f \n"), average);
 
